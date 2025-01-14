@@ -25,9 +25,9 @@ import java.util.Collection;
 @Entity
 @Table(name = "roles")
 @NamedQueries({
-    @NamedQuery(name = "Roles.findAll", query = "SELECT r FROM Roles r"),
-    @NamedQuery(name = "Roles.findByRolename", query = "SELECT r FROM Roles r WHERE r.rolename = :rolename"),
-    @NamedQuery(name = "Roles.findByDescription", query = "SELECT r FROM Roles r WHERE r.description = :description")})
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Roles r"),
+    @NamedQuery(name = "Role.findByRolename", query = "SELECT r FROM Roles r WHERE r.rolename = :rolename"),
+    @NamedQuery(name = "Role.findByDescription", query = "SELECT r FROM Roles r WHERE r.description = :description")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;

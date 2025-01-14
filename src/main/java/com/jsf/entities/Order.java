@@ -30,11 +30,11 @@ import java.util.Date;
 @Entity
 @Table(name = "orders")
 @NamedQueries({
-    @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
-    @NamedQuery(name = "Orders.findByIdOrder", query = "SELECT o FROM Orders o WHERE o.idOrder = :idOrder"),
-    @NamedQuery(name = "Orders.findByDate", query = "SELECT o FROM Orders o WHERE o.date = :date"),
-    @NamedQuery(name = "Orders.findByStatus", query = "SELECT o FROM Orders o WHERE o.status = :status"),
-    @NamedQuery(name = "Orders.findByDescription", query = "SELECT o FROM Orders o WHERE o.description = :description")})
+    @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Orders o"),
+    @NamedQuery(name = "Order.findByIdOrder", query = "SELECT o FROM Orders o WHERE o.idOrder = :idOrder"),
+    @NamedQuery(name = "Order.findByDate", query = "SELECT o FROM Orders o WHERE o.date = :date"),
+    @NamedQuery(name = "Order.findByStatus", query = "SELECT o FROM Orders o WHERE o.status = :status"),
+    @NamedQuery(name = "Order.findByDescription", query = "SELECT o FROM Orders o WHERE o.description = :description")})
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;

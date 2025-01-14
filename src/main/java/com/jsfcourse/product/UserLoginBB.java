@@ -27,7 +27,7 @@ public class UserLoginBB implements Serializable {
 	private User loaded = null;
 
 	@EJB
-	User user_s;
+	UserDAO user_s;
 
 	@Inject
 	FacesContext context;

@@ -25,14 +25,14 @@ import java.util.Collection;
 @Entity
 @Table(name = "products")
 @NamedQueries({
-    @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p"),
-    @NamedQuery(name = "Products.findByIdProduct", query = "SELECT p FROM Products p WHERE p.idProduct = :idProduct"),
-    @NamedQuery(name = "Products.findByManufacturer", query = "SELECT p FROM Products p WHERE p.manufacturer = :manufacturer"),
-    @NamedQuery(name = "Products.findByModel", query = "SELECT p FROM Products p WHERE p.model = :model"),
-    @NamedQuery(name = "Products.findByType", query = "SELECT p FROM Products p WHERE p.type = :type"),
-    @NamedQuery(name = "Products.findByPrice", query = "SELECT p FROM Products p WHERE p.price = :price"),
-    @NamedQuery(name = "Products.findByAvailability", query = "SELECT p FROM Products p WHERE p.availability = :availability"),
-    @NamedQuery(name = "Products.findByDescription", query = "SELECT p FROM Products p WHERE p.description = :description")})
+    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Products p"),
+    @NamedQuery(name = "Product.findByIdProduct", query = "SELECT p FROM Products p WHERE p.idProduct = :idProduct"),
+    @NamedQuery(name = "Product.findByManufacturer", query = "SELECT p FROM Products p WHERE p.manufacturer = :manufacturer"),
+    @NamedQuery(name = "Product.findByModel", query = "SELECT p FROM Products p WHERE p.model = :model"),
+    @NamedQuery(name = "Product.findByType", query = "SELECT p FROM Products p WHERE p.type = :type"),
+    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Products p WHERE p.price = :price"),
+    @NamedQuery(name = "Product.findByAvailability", query = "SELECT p FROM Products p WHERE p.availability = :availability"),
+    @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Products p WHERE p.description = :description")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;

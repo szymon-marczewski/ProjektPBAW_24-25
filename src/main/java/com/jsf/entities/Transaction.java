@@ -25,10 +25,10 @@ import java.io.Serializable;
 @Entity
 @Table(name = "transactions")
 @NamedQueries({
-    @NamedQuery(name = "Transactions.findAll", query = "SELECT t FROM Transactions t"),
-    @NamedQuery(name = "Transactions.findByIdTransaction", query = "SELECT t FROM Transactions t WHERE t.idTransaction = :idTransaction"),
-    @NamedQuery(name = "Transactions.findByAmount", query = "SELECT t FROM Transactions t WHERE t.amount = :amount"),
-    @NamedQuery(name = "Transactions.findByTotalprice", query = "SELECT t FROM Transactions t WHERE t.totalprice = :totalprice")})
+    @NamedQuery(name = "Transaction.findAll", query = "SELECT t FROM Transactions t"),
+    @NamedQuery(name = "Transaction.findByIdTransaction", query = "SELECT t FROM Transactions t WHERE t.idTransaction = :idTransaction"),
+    @NamedQuery(name = "Transaction.findByAmount", query = "SELECT t FROM Transactions t WHERE t.amount = :amount"),
+    @NamedQuery(name = "Transaction.findByTotalprice", query = "SELECT t FROM Transactions t WHERE t.totalprice = :totalprice")})
 public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;

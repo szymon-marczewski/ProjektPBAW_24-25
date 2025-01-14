@@ -12,7 +12,7 @@ import com.jsf.entities.User;
 
 @Stateless
 public class UserDAO {
-	private final static String UNIT_NAME = "jsfcourse-projektPU";
+	private final static String UNIT_NAME = "my_persistence_unit";
 
 	// Dependency injection (no setter method is needed)
 	@PersistenceContext(unitName = UNIT_NAME)

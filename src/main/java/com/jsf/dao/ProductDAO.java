@@ -12,7 +12,7 @@ import com.jsf.entities.Product;
 
 @Stateless
 public class ProductDAO {
-	private final static String UNIT_NAME = "jsfcourse-projektPU";
+	private final static String UNIT_NAME = "my_persistence_unit";
 	public int nr = 0;
 	public int end_nr = 5; 
 	// Dependency injection (no setter method is needed)
@@ -34,7 +34,7 @@ public class ProductDAO {
 	public Product find(Object id) {
 		return em.find(Product.class, id);
 	}
-/*
+
 	public void less()
 	{
 		int nr = 0;
@@ -47,7 +47,7 @@ public class ProductDAO {
 		int end_nr = 20;
 		return getFullList(nr, end_nr);
 	}
-*/
+
 	public List<Product> getFullList(int nr, int end_nr) {
 		List<Product> list = null;
 

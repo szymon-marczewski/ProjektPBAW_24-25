@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package test;
+package com.jsf.entities;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -33,7 +33,7 @@ import java.util.Collection;
     @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
     @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
     @NamedQuery(name = "Users.findByActive", query = "SELECT u FROM Users u WHERE u.active = :active")})
-public class Users implements Serializable {
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,19 +60,19 @@ public class Users implements Serializable {
     @Column(name = "Active")
     private Integer active;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
-    private Collection<Orders> ordersCollection;
+    private Collection<Order> ordersCollection;
     @JoinColumn(name = "Role_name", referencedColumnName = "Role_name")
     @ManyToOne(optional = false)
-    private Roles rolename;
+    private Role rolename;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(Integer idUser) {
+    public User(Integer idUser) {
         this.idUser = idUser;
     }
 
-    public Users(Integer idUser, String username, String email, String password) {
+    public User(Integer idUser, String username, String email, String password) {
         this.idUser = idUser;
         this.username = username;
         this.email = email;
@@ -119,19 +119,19 @@ public class Users implements Serializable {
         this.active = active;
     }
 
-    public Collection<Orders> getOrdersCollection() {
+    public Collection<Order> getOrdersCollection() {
         return ordersCollection;
     }
 
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
+    public void setOrdersCollection(Collection<Order> ordersCollection) {
         this.ordersCollection = ordersCollection;
     }
 
-    public Roles getRolename() {
+    public Role getRolename() {
         return rolename;
     }
 
-    public void setRolename(Roles rolename) {
+    public void setRolename(Role rolename) {
         this.rolename = rolename;
     }
 
@@ -145,10 +145,10 @@ public class Users implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Users)) {
+        if (!(object instanceof User)) {
             return false;
         }
-        Users other = (Users) object;
+        User other = (User) object;
         if ((this.idUser == null && other.idUser != null) || (this.idUser != null && !this.idUser.equals(other.idUser))) {
             return false;
         }

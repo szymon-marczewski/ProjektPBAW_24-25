@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package test;
+package com.jsf.entities;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -33,7 +33,7 @@ import java.util.Collection;
     @NamedQuery(name = "Products.findByPrice", query = "SELECT p FROM Products p WHERE p.price = :price"),
     @NamedQuery(name = "Products.findByAvailability", query = "SELECT p FROM Products p WHERE p.availability = :availability"),
     @NamedQuery(name = "Products.findByDescription", query = "SELECT p FROM Products p WHERE p.description = :description")})
-public class Products implements Serializable {
+public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,16 +70,16 @@ public class Products implements Serializable {
     @Column(name = "Description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProduct")
-    private Collection<Transactions> transactionsCollection;
+    private Collection<Transaction> transactionsCollection;
 
-    public Products() {
+    public Product() {
     }
 
-    public Products(Integer idProduct) {
+    public Product(Integer idProduct) {
         this.idProduct = idProduct;
     }
 
-    public Products(Integer idProduct, String manufacturer, String model, String type, int price, int availability, String description) {
+    public Product(Integer idProduct, String manufacturer, String model, String type, int price, int availability, String description) {
         this.idProduct = idProduct;
         this.manufacturer = manufacturer;
         this.model = model;
@@ -145,11 +145,11 @@ public class Products implements Serializable {
         this.description = description;
     }
 
-    public Collection<Transactions> getTransactionsCollection() {
+    public Collection<Transaction> getTransactionsCollection() {
         return transactionsCollection;
     }
 
-    public void setTransactionsCollection(Collection<Transactions> transactionsCollection) {
+    public void setTransactionsCollection(Collection<Transaction> transactionsCollection) {
         this.transactionsCollection = transactionsCollection;
     }
 
@@ -163,10 +163,10 @@ public class Products implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Products)) {
+        if (!(object instanceof Product)) {
             return false;
         }
-        Products other = (Products) object;
+        Product other = (Product) object;
         if ((this.idProduct == null && other.idProduct != null) || (this.idProduct != null && !this.idProduct.equals(other.idProduct))) {
             return false;
         }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package test;
+package com.jsf.entities;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -29,7 +29,7 @@ import java.io.Serializable;
     @NamedQuery(name = "Transactions.findByIdTransaction", query = "SELECT t FROM Transactions t WHERE t.idTransaction = :idTransaction"),
     @NamedQuery(name = "Transactions.findByAmount", query = "SELECT t FROM Transactions t WHERE t.amount = :amount"),
     @NamedQuery(name = "Transactions.findByTotalprice", query = "SELECT t FROM Transactions t WHERE t.totalprice = :totalprice")})
-public class Transactions implements Serializable {
+public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,19 +47,19 @@ public class Transactions implements Serializable {
     private int totalprice;
     @JoinColumn(name = "idOrder", referencedColumnName = "idOrder")
     @ManyToOne(optional = false)
-    private Orders idOrder;
+    private Order idOrder;
     @JoinColumn(name = "idProduct", referencedColumnName = "idProduct")
     @ManyToOne(optional = false)
-    private Products idProduct;
+    private Product idProduct;
 
-    public Transactions() {
+    public Transaction() {
     }
 
-    public Transactions(Integer idTransaction) {
+    public Transaction(Integer idTransaction) {
         this.idTransaction = idTransaction;
     }
 
-    public Transactions(Integer idTransaction, int amount, int totalprice) {
+    public Transaction(Integer idTransaction, int amount, int totalprice) {
         this.idTransaction = idTransaction;
         this.amount = amount;
         this.totalprice = totalprice;
@@ -89,19 +89,19 @@ public class Transactions implements Serializable {
         this.totalprice = totalprice;
     }
 
-    public Orders getIdOrder() {
+    public Order getIdOrder() {
         return idOrder;
     }
 
-    public void setIdOrder(Orders idOrder) {
+    public void setIdOrder(Order idOrder) {
         this.idOrder = idOrder;
     }
 
-    public Products getIdProduct() {
+    public Product getIdProduct() {
         return idProduct;
     }
 
-    public void setIdProduct(Products idProduct) {
+    public void setIdProduct(Product idProduct) {
         this.idProduct = idProduct;
     }
 
@@ -115,10 +115,10 @@ public class Transactions implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Transactions)) {
+        if (!(object instanceof Transaction)) {
             return false;
         }
-        Transactions other = (Transactions) object;
+        Transaction other = (Transaction) object;
         if ((this.idTransaction == null && other.idTransaction != null) || (this.idTransaction != null && !this.idTransaction.equals(other.idTransaction))) {
             return false;
         }

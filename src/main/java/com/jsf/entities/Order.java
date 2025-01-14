@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package test;
+package com.jsf.entities;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -35,7 +35,7 @@ import java.util.Date;
     @NamedQuery(name = "Orders.findByDate", query = "SELECT o FROM Orders o WHERE o.date = :date"),
     @NamedQuery(name = "Orders.findByStatus", query = "SELECT o FROM Orders o WHERE o.status = :status"),
     @NamedQuery(name = "Orders.findByDescription", query = "SELECT o FROM Orders o WHERE o.description = :description")})
-public class Orders implements Serializable {
+public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,18 +59,18 @@ public class Orders implements Serializable {
     private String description;
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     @ManyToOne(optional = false)
-    private Users idUser;
+    private User idUser;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrder")
-    private Collection<Transactions> transactionsCollection;
+    private Collection<Transaction> transactionsCollection;
 
-    public Orders() {
+    public Order() {
     }
 
-    public Orders(Integer idOrder) {
+    public Order(Integer idOrder) {
         this.idOrder = idOrder;
     }
 
-    public Orders(Integer idOrder, Date date, int status, String description) {
+    public Order(Integer idOrder, Date date, int status, String description) {
         this.idOrder = idOrder;
         this.date = date;
         this.status = status;
@@ -109,19 +109,19 @@ public class Orders implements Serializable {
         this.description = description;
     }
 
-    public Users getIdUser() {
+    public User getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(Users idUser) {
+    public void setIdUser(User idUser) {
         this.idUser = idUser;
     }
 
-    public Collection<Transactions> getTransactionsCollection() {
+    public Collection<Transaction> getTransactionsCollection() {
         return transactionsCollection;
     }
 
-    public void setTransactionsCollection(Collection<Transactions> transactionsCollection) {
+    public void setTransactionsCollection(Collection<Transaction> transactionsCollection) {
         this.transactionsCollection = transactionsCollection;
     }
 
@@ -135,10 +135,10 @@ public class Orders implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Orders)) {
+        if (!(object instanceof Order)) {
             return false;
         }
-        Orders other = (Orders) object;
+        Order other = (Order) object;
         if ((this.idOrder == null && other.idOrder != null) || (this.idOrder != null && !this.idOrder.equals(other.idOrder))) {
             return false;
         }

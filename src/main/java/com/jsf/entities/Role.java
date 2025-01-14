@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package test;
+package com.jsf.entities;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -28,7 +28,7 @@ import java.util.Collection;
     @NamedQuery(name = "Roles.findAll", query = "SELECT r FROM Roles r"),
     @NamedQuery(name = "Roles.findByRolename", query = "SELECT r FROM Roles r WHERE r.rolename = :rolename"),
     @NamedQuery(name = "Roles.findByDescription", query = "SELECT r FROM Roles r WHERE r.description = :description")})
-public class Roles implements Serializable {
+public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,12 +41,12 @@ public class Roles implements Serializable {
     @Column(name = "Description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolename")
-    private Collection<Users> usersCollection;
+    private Collection<User> usersCollection;
 
-    public Roles() {
+    public Role() {
     }
 
-    public Roles(String rolename) {
+    public Role(String rolename) {
         this.rolename = rolename;
     }
 
@@ -66,11 +66,11 @@ public class Roles implements Serializable {
         this.description = description;
     }
 
-    public Collection<Users> getUsersCollection() {
+    public Collection<User> getUsersCollection() {
         return usersCollection;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection) {
+    public void setUsersCollection(Collection<User> usersCollection) {
         this.usersCollection = usersCollection;
     }
 
@@ -84,10 +84,10 @@ public class Roles implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Roles)) {
+        if (!(object instanceof Role)) {
             return false;
         }
-        Roles other = (Roles) object;
+        Role other = (Role) object;
         if ((this.rolename == null && other.rolename != null) || (this.rolename != null && !this.rolename.equals(other.rolename))) {
             return false;
         }

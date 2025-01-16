@@ -52,7 +52,7 @@ public class ProductListBB {
 		Map<String,Object> searchParams = new HashMap<String, Object>();
 		
 		if (type != null && type.length() > 0){
-			searchParams.put("type", type);
+			searchParams.put("type", "%" + type + "%");
 		}
 		
 		//2. Get list

@@ -58,6 +58,6 @@ public class UserLoginBB implements Serializable {
 		
 		int id = user.getIdUser();
 		user.setActive(1);
-		return PAGE_STAY_AT_THE_SAME;
+		return PAGE_PRODUCT_LIST;
 	}
 }

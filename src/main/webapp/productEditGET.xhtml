@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:viewParam name="p" value="#{personEditGETBB.person.IDPRODUCT}"
+		converterMessage="Error"/>
+	<f:event type="preRenderView" listener="#{personEditGETBB.onLoad()}" />
+</f:metadata>
+
+<h:head>
+	<meta charset="utf-8"/>
+	<title>Projekt bazodanowy</title>
+</h:head>
+<h:body style="background-color: #eee; margin: 0.5em;">
+
+	<p:panel toggleable="true" header="Edit record">
+
+		<h:form rendered="#{productEditBB.product != null}">
+			<h:panelGrid columns="6" cellpadding="5">
+
+				<h:outputLabel for="p-manufacturer" value="manufacturer:" />
+				<p:inputText id="p-manufacturer" value="#{productEditBB.product.manufacturer}"
+					required="true" requiredMessage="Manufacturer"
+					validatorMessage="">
+					<f:validateLength maximum="20" />
+				</p:inputText>
+				<p:message for="p-manufacturer" display="icon"/>
+
+				<h:outputLabel for="p-model" value="model:" />
+				<p:inputText id="p-model" value="#{productEditBB.product.model}"
+					required="true" requiredMessage="model"
+					validatorMessage="">
+					<f:validateLength maximum="40" />
+				</p:inputText>
+				<p:message for="p-model" display="icon"/>
+
+				<h:outputLabel for="p-type" value="type:" />
+				<p:inputText id="p-type" value="#{productEditBB.product.type}"
+					required="true" requiredMessage="type"
+					validatorMessage="">
+					<f:validateLength maximum="40" />
+			    </p:inputText>
+				<p:message for="p-type" display="icon"/>
+				
+				<h:outputLabel for="p-price" value="price:" />
+				<p:inputText id="p-price" value="#{productEditBB.product.price}"
+					required="true" requiredMessage="type"
+					validatorMessage="">
+					<f:validateLength maximum="6" />
+			    </p:inputText>
+				<p:message for="p-price" display="icon"/>
+				
+				<h:outputLabel for="p-availability" value="availability:" />
+				<p:inputText id="p-availability" value="#{productEditBB.product.availability}"
+					required="true" requiredMessage="type"
+					validatorMessage="">
+					<f:validateLength maximum="1" />
+			    </p:inputText>
+				<p:message for="p-availability" display="icon"/>
+				
+				<h:outputLabel for="p-description" value="description:" />
+				<p:inputText id="p-description" value="#{productEditBB.product.description}" 
+					required="false">
+			    </p:inputText>
+				<p:message for="p-description" display="icon"/>
+				
+			</h:panelGrid>
+
+			<p:messages id="msgs" />
+
+			<p:commandButton value="Save" action="#{productEditBB.saveData()}"
+				style="margin-right: 1em;" update="@form" />
+
+			<p:button value="Cancel" outcome="productList" />
+		</h:form>
+
+	</p:panel>
+
+</h:body>
+
+</html>

@@ -33,4 +33,16 @@ public class UserDAO {
 	public User find(Object id) {
 		return em.find(User.class, id);
 	}
+        
+        public User findUserByUsernameAndPassword(String username, String password) {
+            try {
+            return em.createQuery(
+                "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+                    .setParameter("username", username)
+                    .setParameter("password", password)
+                    .getSingleResult();
+            } catch (jakarta.persistence.NoResultException e) {
+                return null;
+        }
+}
 }

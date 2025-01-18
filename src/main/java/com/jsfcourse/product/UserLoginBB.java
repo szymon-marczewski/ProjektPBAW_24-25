@@ -8,6 +8,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.context.Flash;
 import jakarta.faces.view.ViewScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -16,48 +17,54 @@ import com.jsf.entities.Product;
 import com.jsf.entities.User;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class UserLoginBB implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	private static final String PAGE_PRODUCT_LIST = "productList?faces-redirect=true";
-	private static final String PAGE_STAY_AT_THE_SAME = null;
+    private static final long serialVersionUID = 1L;
 
-	private User user = new User();
-	private User loaded = null;
+    private static final String PAGE_PRODUCT_LIST = "productList?faces-redirect=true";
+//    private static final String PAGE_STAY_AT_THE_SAME = null;
 
-	@EJB
-	UserDAO user_s;
+    private User user = new User();
+    private User activeUser = null;
 
-	@Inject
-	FacesContext context;
+    @EJB
+    UserDAO userDAO;
 
-	@Inject
-	Flash flash;
+    public User getUser() {
+        return user;
+    }
 
-	public User getUser() {
-		return user;
-	}
-	
-	public void onLoad() throws IOException {
-		
-		loaded = (User) flash.get("user");
+    public User getActiveUser() {
+        return activeUser;
+    }
 
-		if (loaded != null) {
-			user = loaded;
-			
-		} else {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
-			
-		}
+    public boolean isLoggedIn() {
+        return activeUser != null;
+    }
 
-	}
-	
-	public String login()
-	{
-		
-		int id = user.getIdUser();
-		user.setActive(1);
-		return PAGE_PRODUCT_LIST;
-	}
+    public String login() {
+        User foundUser = userDAO.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+        if (foundUser != null) {
+            foundUser.setActive(1);
+            userDAO.merge(foundUser);
+
+            activeUser = foundUser;
+            return PAGE_PRODUCT_LIST;
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne dane logowania", null));
+            return null;
+        }
+    }
+
+    public String logout() {
+        if (activeUser != null) {
+            activeUser.setActive(0);
+            userDAO.merge(activeUser);
+            activeUser = null; 
+        }
+        user = new User();
+        return PAGE_PRODUCT_LIST;
+    }
 }

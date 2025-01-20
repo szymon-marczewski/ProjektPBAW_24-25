@@ -24,7 +24,6 @@ public class ProductEditBB implements Serializable {
     private static final String PAGE_STAY_AT_THE_SAME = null;
 
     private Product product = new Product();
-    private Product loaded = null;
 
     @EJB
     ProductDAO productDAO;
@@ -40,11 +39,9 @@ public class ProductEditBB implements Serializable {
     }
 
     public void onLoad() throws IOException {
-        // Pobierz produkt z Flash
         product = (Product) flash.get("product");
 
         if (product == null) {
-            // Jeśli produkt nie został przekazany, wyświetl błąd
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny dostęp do edycji produktu", null));
             context.getExternalContext().redirect(PAGE_PRODUCT_LIST);
         }
@@ -53,10 +50,8 @@ public class ProductEditBB implements Serializable {
     public String saveData() {
         try {
             if (product.getIdProduct() == null) {
-                // Dodanie nowego produktu
                 productDAO.create(product);
             } else {
-                // Edycja istniejącego produktu
                 productDAO.merge(product);
             }
         } catch (Exception e) {

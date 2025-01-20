@@ -32,12 +32,6 @@ public class ProductListBB {
     @EJB
     ProductDAO productDAO;
 
-//    public void onLoad() {
-//        if (flash.get("product") != null) {
-//            product = (Product) flash.get("product");
-//        }
-//    }
-
     public String getType() {
         return type;
     }
@@ -53,14 +47,12 @@ public class ProductListBB {
     public List<Product> getList() {
         List<Product> list = null;
 
-        //1. Prepare search params
         Map<String, Object> searchParams = new HashMap<String, Object>();
 
         if (type != null && type.length() > 0) {
             searchParams.put("type", "%" + type + "%");
         }
 
-        //2. Get list
         list = productDAO.getList(searchParams);
 
         return list;

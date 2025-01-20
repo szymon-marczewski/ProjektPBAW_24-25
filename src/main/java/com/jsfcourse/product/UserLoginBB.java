@@ -67,4 +67,8 @@ public class UserLoginBB implements Serializable {
         user = new User();
         return PAGE_PRODUCT_LIST;
     }
+    
+    public boolean hasRole(String roleName) {
+        return activeUser != null && activeUser.getRolename().getRolename().equals(roleName);
+    }
 }

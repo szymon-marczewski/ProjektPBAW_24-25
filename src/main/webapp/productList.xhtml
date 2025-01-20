@@ -27,7 +27,6 @@
                       outcome="userLogin.xhtml" 
                       rendered="#{not userLoginBB.isLoggedIn()}" />
             <p:commandButton value="Your orders"
-                             <!--action="#{orderListBB.getFullList()}"-->
                              rendered="#{userLoginBB.isLoggedIn()}"
                              style= "align: right; margin-right: auto;" />
         </h:form>
@@ -48,7 +47,9 @@
         <h:form id="form-table" style="margin-bottom:1em;">
 
             <p:commandButton value="Add new product"
-                             action="#{productListBB.newProduct()}" style="margin-bottom:1em;" />
+                             action="#{productListBB.newProduct()}"
+                             rendered="#{userLoginBB.isLoggedIn() and userLoginBB.hasRole('Admin')}"
+                             style="margin-bottom:1em;" />
 
             <p:dataTable value="#{productListBB.list}" var="p">
 
@@ -97,19 +98,24 @@
                     <h:outputText value="#{p.description}" />
                 </p:column>
 
-                <p:column>
+                <p:column rendered="#{userLoginBB.isLoggedIn()}">
                     <f:facet name="header">
                         <h:outputText value="options" />
                     </f:facet>
 
                     <p:commandButton value="Edit"
-                                     action="#{productListBB.editProduct(p)}" />
+                                     action="#{productListBB.editProduct(p)}"
+                                     rendered="#{userLoginBB.hasRole('Admin')}" />
 
                     <p:commandButton value="Delete"
-                                     action="#{productListBB.deleteProduct(p)}" update="@form" style="margin-left:4px;"/>
+                                     action="#{productListBB.deleteProduct(p)}"
+                                     update="@form"
+                                     rendered="#{userLoginBB.hasRole('Admin')}"
+                                     style="margin-left:4px;" />
 
                     <p:commandButton value="Buy"
-                                     action="#" />
+                                     action="#"
+                                     style="margin-left:4px;"/>
 
                 </p:column>
 

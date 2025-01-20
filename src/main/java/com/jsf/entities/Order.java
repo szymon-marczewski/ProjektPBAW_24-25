@@ -34,7 +34,8 @@ import java.util.Date;
     @NamedQuery(name = "Order.findByIdOrder", query = "SELECT o FROM Orders o WHERE o.idOrder = :idOrder"),
     @NamedQuery(name = "Order.findByDate", query = "SELECT o FROM Orders o WHERE o.date = :date"),
     @NamedQuery(name = "Order.findByStatus", query = "SELECT o FROM Orders o WHERE o.status = :status"),
-    @NamedQuery(name = "Order.findByDescription", query = "SELECT o FROM Orders o WHERE o.description = :description")})
+    @NamedQuery(name = "Order.findByDescription", query = "SELECT o FROM Orders o WHERE o.description = :description"),
+    @NamedQuery(name = "Order.findByUserId", query = "SELECT o FROM Orders o WHERE o.idUser.idUser = :idUser")})
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;

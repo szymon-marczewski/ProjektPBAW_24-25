@@ -27,7 +27,9 @@
                       outcome="userLogin.xhtml" 
                       rendered="#{not userLoginBB.isLoggedIn()}" />
             <p:commandButton value="Your orders"
+                             action="orderList.xhtml?faces-redirect=true"
                              rendered="#{userLoginBB.isLoggedIn()}"
+                             update="@form"
                              style= "align: right; margin-right: auto;" />
         </h:form>
 
@@ -51,7 +53,7 @@
                              rendered="#{userLoginBB.isLoggedIn() and userLoginBB.hasRole('Admin')}"
                              style="margin-bottom:1em;" />
 
-            <p:dataTable value="#{productListBB.list}" var="p">
+            <p:dataTable value="#{productListBB.list}" var="p" paginator="true" rows="10">
 
                 <!-- TEST
                 -->

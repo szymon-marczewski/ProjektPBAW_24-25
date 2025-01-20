@@ -10,6 +10,7 @@ import jakarta.persistence.Query;
 
 import com.jsf.entities.Order;
 import com.jsf.entities.User;
+import jakarta.persistence.TypedQuery;
 
 @Stateless
 public class OrderDAO {
@@ -54,15 +55,26 @@ public class OrderDAO {
 	}
 
 	public List<Order> getList(Map<String, Object> searchParams) {
-		List<Order> list = null;
+                List<Order> list = null;
 
-		//test
-//		String q = "select p from Order p, User u where u.idUser = p.idUser and p.idUser like 7 order by p.idOrder";
-		String q = "select p from Order p, User u where u.idUser = p.idUser and u.active like 1 order by p.idOrder";
+                //test
+            //		String q = "select p from Order p, User u where u.idUser = p.idUser and p.idUser like 7 order by p.idOrder";
+            //		String q = "select p from Order p, User u where u.idUser = p.idUser and u.active like 1 order by p.idOrder";
+                Integer userId = (Integer) searchParams.get("idUser");
 
-		Query query = em.createQuery(q);
-		list = query.getResultList();
-		return list;
-	}
+                // Modify the query to match orders by the user's ID
+                String q = "select o from Order o order by o.idOrder";
+
+                Query query = em.createQuery(q);
+//                query.setParameter("idUser", userId);
+                list = query.getResultList();
+                return list;
+        }
+        
+        public List<Order> getOrdersByUserId(Integer userId) {
+            TypedQuery<Order> query = em.createNamedQuery("Order.findByUserId", Order.class);
+            query.setParameter("idUser", userId);  // Przekazujesz tylko identyfikator użytkownika
+            return query.getResultList();
+        }
 
 }

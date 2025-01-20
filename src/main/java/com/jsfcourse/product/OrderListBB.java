@@ -13,10 +13,14 @@ import jakarta.faces.context.Flash;
 
 import com.jsf.dao.OrderDAO;
 import com.jsf.entities.Order;
+import com.jsf.entities.User;
 
 @Named
 @RequestScoped
 public class OrderListBB {
+    
+        @Inject
+        private UserLoginBB userLoginBB; 
 		
 	@Inject
 	ExternalContext extcontext;
@@ -32,15 +36,27 @@ public class OrderListBB {
 	}
 
 	public List<Order> getList(){
-		List<Order> list = null;
-		
-		//1. Prepare search params
-		Map<String,Object> searchParams = new HashMap<String, Object>();
-		
-		//searchParams.put("idUser", "7");
-		//2. Get list
-		list = orderDAO.getList(searchParams);
-		
-		return list;
-	}
+                List<Order> list = null;
+
+                // Retrieve the userId from the activeUser in UserLoginBB
+                Integer userId = userLoginBB.getActiveUser().getIdUser();  // Access the active user ID
+
+                // Prepare search parameters
+                Map<String,Object> searchParams = new HashMap<String, Object>();
+                searchParams.put("idUser", userId);
+
+                // Get the list of orders for the logged-in user
+                list = orderDAO.getList(searchParams);
+
+                return list;
+        }
+        
+        public User getActiveUser() {
+            return userLoginBB.getActiveUser();
+        }
+        
+        public List<Order> getOrdersForActiveUser() {
+            Integer userId = getActiveUser().getIdUser();
+            return orderDAO.getOrdersByUserId(userId);
+}
 }

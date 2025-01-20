@@ -87,7 +87,7 @@ public class ProductDAO {
 			query.setParameter("type", type+"%");
 		}
 		//tu działa XD
-		query.setFirstResult(0).setMaxResults(5);
+		query.setFirstResult(0).setMaxResults(15);
 		try {
 			list = query.getResultList();
 		} catch (Exception e) {

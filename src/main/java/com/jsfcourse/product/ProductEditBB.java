@@ -17,61 +17,54 @@ import com.jsf.entities.Product;
 @Named
 @ViewScoped
 public class ProductEditBB implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	private static final String PAGE_PRODUCT_LIST = "productList?faces-redirect=true";
-	private static final String PAGE_STAY_AT_THE_SAME = null;
+    private static final long serialVersionUID = 1L;
 
-	private Product product = new Product();
-	private Product loaded = null;
+    private static final String PAGE_PRODUCT_LIST = "productList?faces-redirect=true";
+    private static final String PAGE_STAY_AT_THE_SAME = null;
 
-	@EJB
-	ProductDAO productDAO;
+    private Product product = new Product();
+    private Product loaded = null;
 
-	@Inject
-	FacesContext context;
+    @EJB
+    ProductDAO productDAO;
 
-	@Inject
-	Flash flash;
+    @Inject
+    FacesContext context;
 
-	public Product getProduct() {
-		return product;
-	}
+    @Inject
+    Flash flash;
 
-	public void onLoad() throws IOException {
-		
-		loaded = (Product) flash.get("product");
+    public Product getProduct() {
+        return product;
+    }
 
-		if (loaded != null) {
-			product = loaded;
-			
-		} else {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
-			
-		}
+    public void onLoad() throws IOException {
+        // Pobierz produkt z Flash
+        product = (Product) flash.get("product");
 
-	}
+        if (product == null) {
+            // Jeśli produkt nie został przekazany, wyświetl błąd
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny dostęp do edycji produktu", null));
+            context.getExternalContext().redirect(PAGE_PRODUCT_LIST);
+        }
+    }
 
-	public String saveData() {
-		if (loaded == null) {
-			return PAGE_STAY_AT_THE_SAME;
-		}
+    public String saveData() {
+        try {
+            if (product.getIdProduct() == null) {
+                // Dodanie nowego produktu
+                productDAO.create(product);
+            } else {
+                // Edycja istniejącego produktu
+                productDAO.merge(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd podczas zapisu produktu", null));
+            return PAGE_PRODUCT_LIST;
+        }
 
-		try {
-			if (product.getIdProduct() == null) {
-				// new record
-				productDAO.create(product);
-			} else {
-				// existing record
-				productDAO.merge(product);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			context.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "wystąpił błąd podczas zapisu", null));
-			return PAGE_STAY_AT_THE_SAME;
-		}
-
-		return PAGE_PRODUCT_LIST;
-	}
+        return PAGE_PRODUCT_LIST;
+    }
 }

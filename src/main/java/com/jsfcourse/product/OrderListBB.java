@@ -42,7 +42,7 @@ public class OrderListBB {
                 Integer userId = userLoginBB.getActiveUser().getIdUser();  // Access the active user ID
 
                 // Prepare search parameters
-                Map<String,Object> searchParams = new HashMap<String, Object>();
+                Map<String,Object> searchParams = new HashMap<>();
                 searchParams.put("idUser", userId);
 
                 // Get the list of orders for the logged-in user

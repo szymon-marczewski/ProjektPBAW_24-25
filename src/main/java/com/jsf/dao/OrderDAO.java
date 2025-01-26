@@ -18,7 +18,7 @@ public class OrderDAO {
 	// Dependency injection (no setter method is needed)
 	@PersistenceContext(unitName = UNIT_NAME)
 	protected EntityManager em;
-	public Integer id = 3;
+//	public Integer id = 3;
 	public void create(Order order) {
 		em.persist(order);
 	}
@@ -57,17 +57,17 @@ public class OrderDAO {
 	public List<Order> getList(Map<String, Object> searchParams) {
                 List<Order> list = null;
 
-                //test
-            //		String q = "select p from Order p, User u where u.idUser = p.idUser and p.idUser like 7 order by p.idOrder";
-            //		String q = "select p from Order p, User u where u.idUser = p.idUser and u.active like 1 order by p.idOrder";
                 Integer userId = (Integer) searchParams.get("idUser");
 
-                // Modify the query to match orders by the user's ID
-                String q = "select o from Order o order by o.idOrder";
-
+                String q = "SELECT o FROM Orders o WHERE o.idUser.idUser = :idUser ORDER BY o.idOrder";
                 Query query = em.createQuery(q);
-//                query.setParameter("idUser", userId);
-                list = query.getResultList();
+                query.setParameter("idUser", userId); // Ustawiamy parametr ID użytkownika
+
+                try {
+                    list = query.getResultList();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return list;
         }
         

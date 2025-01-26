@@ -22,61 +22,31 @@
 
 	<h:form id="form-table" style="margin-bottom:1em;">
 
-		<p:dataTable value="#{orderListBB.list}" var="p">
-<!--
-			<p:column priority="4">
-				<f:facet name="header">
-					<h:outputText value="idOrder" />
-				</f:facet>
-				<h:outputText value="#{p.idOrder}" />
-			</p:column>
+	<p:dataTable value="#{orderListBB.list}" var="p">
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="idOrder" />
+            </f:facet>
+            <h:outputText value="#{p.idOrder}" />
+        </p:column>
+        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Date" />
+            </f:facet>
+            <h:outputText value="#{p.date}" />
+        </p:column>
+        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Description" />
+            </f:facet>
+            <h:outputText value="#{p.description}" />
+        </p:column>
 
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="date" />
-				</f:facet>
-				<h:outputText value="#{p.date}" />
-			</p:column>
-
-			<p:column priority="5">
-				<f:facet name="header">
-					<h:outputText value="status" />
-				</f:facet>
-				<h:outputText value="#{p.status}" />
-			</p:column>
-			
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="description" />
-				</f:facet>
-				<h:outputText value="#{p.description}" />
-			</p:column>
--->
-<!-- TEST -->
-		<p:column>
-				<f:facet name="header">
-					<h:outputText value="idOrder" />
-				</f:facet>
-				<h:outputText value="#{p.idOrder}" />
-		</p:column>
+    </p:dataTable>
 		
-		<p:column>
-				<f:facet name="header">
-					<h:outputText value="date" />
-				</f:facet>
-				<h:outputText value="#{p.date}" />
-		</p:column>
-		
-		<p:column>
-				<f:facet name="header">
-					<h:outputText value="description" />
-				</f:facet>
-				<h:outputText value="#{p.description}" />
-		</p:column>
-		
-		</p:dataTable>
-		
-	</h:form>
+    </h:form>
 
 </h:body>
 </html>

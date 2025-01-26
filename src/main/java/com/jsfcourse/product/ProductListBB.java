@@ -24,6 +24,8 @@ public class ProductListBB {
 
     private String type;
     private List<Product> list;
+    private String sortField = "idProduct";
+    private boolean ascending = true; 
 
     @Inject
 //    ExternalContext extcontext;
@@ -32,9 +34,6 @@ public class ProductListBB {
     @Inject
     Flash flash;
 
-//    @EJB
-//    ProductDAO productDAO;
-
     public String getType() {
         return type;
     }
@@ -42,17 +41,33 @@ public class ProductListBB {
     public void setType(String type) {
         this.type = type;
     }
+    
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
+    }
+
+    public boolean isAscending() {
+        return ascending;
+    }
+
+    public void setAscending(boolean ascending) {
+        this.ascending = ascending;
+    }
 
     @PostConstruct
     public void init() {
-        list = productDAO.getFullList();
+        list = productDAO.getFullList(sortField, ascending);
     }
 
     public List<Product> getList() {
         if (type != null && !type.isEmpty()) {
             Map<String, Object> searchParams = new HashMap<>();
             searchParams.put("type", "%" + type + "%");
-            return productDAO.getList(searchParams);
+            return productDAO.getList(searchParams, sortField, ascending);
         }
         return list;
     }

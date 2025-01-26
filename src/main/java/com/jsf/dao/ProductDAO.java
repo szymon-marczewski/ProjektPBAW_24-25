@@ -16,6 +16,7 @@ public class ProductDAO {
 //	public int nr = 0;
 //	public int end_nr = 5; 
 	// Dependency injection (no setter method is needed)
+//        private List<Product> list;
 	@PersistenceContext(unitName = UNIT_NAME)
 	protected EntityManager em;
 
@@ -35,21 +36,30 @@ public class ProductDAO {
 		return em.find(Product.class, id);
 	}
 
-	public List<Product> getFullList() {
-		List<Product> list = null;
+	public List<Product> getFullList(String sortField, boolean ascending) {
+            List<Product> list = null;
 
-		Query query = em.createQuery("SELECT p FROM Product p");
+            String select = "SELECT p ";
+            String from = "FROM Product p ";
+            String orderBy = "ORDER BY p." + sortField;
 
-		try {
-			list = query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
+            if (!ascending) {
+                orderBy += " DESC";
+            }
 
-	public List<Product> getList(Map<String, Object> searchParams) {
+            Query query = em.createQuery(select + from + orderBy);
+
+            try {
+                list = query.getResultList();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        return list;
+    }
+
+
+	public List<Product> getList(Map<String, Object> searchParams, String sortField, boolean ascending) {
 		List<Product> list = null;
 
 		String select = "select p ";
@@ -68,15 +78,15 @@ public class ProductDAO {
 			where += "p.type like :type ";
 		}
                 
-                String orderBy = "order by p.model";  // Domyślnie po modelu
-                if (searchParams.get("sortByPrice") != null && (boolean) searchParams.get("sortByPrice")) {
-                    orderBy = "order by p.price";
+                String orderBy = "order by p." + sortField;
+                if (!ascending) {
+                    orderBy += " desc";
                 }
 		
-		Query query = em.createQuery(select + from + where + " " + orderBy);
+		Query query = em.createQuery(select + from + where + orderBy);
 
 		if (type != null) {
-			query.setParameter("type", type+"%");
+			query.setParameter("type", type+ "%");
 		}
 		try {
 			list = query.getResultList();

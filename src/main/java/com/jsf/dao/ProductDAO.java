@@ -13,8 +13,8 @@ import com.jsf.entities.Product;
 @Stateless
 public class ProductDAO {
 	private final static String UNIT_NAME = "my_persistence_unit";
-	public int nr = 0;
-	public int end_nr = 5; 
+//	public int nr = 0;
+//	public int end_nr = 5; 
 	// Dependency injection (no setter method is needed)
 	@PersistenceContext(unitName = UNIT_NAME)
 	protected EntityManager em;
@@ -35,23 +35,10 @@ public class ProductDAO {
 		return em.find(Product.class, id);
 	}
 
-	public void less()
-	{
-		int nr = 0;
-		getList(null);
-	}
-	
-	public List<Product> more()
-	{
-		int nr = 10;
-		int end_nr = 20;
-		return getFullList(nr, end_nr);
-	}
-
-	public List<Product> getFullList(int nr, int end_nr) {
+	public List<Product> getFullList() {
 		List<Product> list = null;
 
-		Query query = em.createQuery("SELECT p FROM Product p").setFirstResult(0).setMaxResults(5);
+		Query query = em.createQuery("SELECT p FROM Product p");
 
 		try {
 			list = query.getResultList();
@@ -65,11 +52,11 @@ public class ProductDAO {
 	public List<Product> getList(Map<String, Object> searchParams) {
 		List<Product> list = null;
 
-		// 1. Build query string with parameters
 		String select = "select p ";
 		String from = "from Product p ";
 		String where = "";
-		String orderby = "order by p.type asc, p.manufacturer asc";
+//		String orderby = "";
+                
 
 		String type = (String) searchParams.get("type");
 		if (type != null) {
@@ -80,14 +67,17 @@ public class ProductDAO {
 			}
 			where += "p.type like :type ";
 		}
+                
+                String orderBy = "order by p.model";  // Domyślnie po modelu
+                if (searchParams.get("sortByPrice") != null && (boolean) searchParams.get("sortByPrice")) {
+                    orderBy = "order by p.price";
+                }
 		
-		Query query = em.createQuery(select + from + where + orderby);
+		Query query = em.createQuery(select + from + where + " " + orderBy);
 
 		if (type != null) {
 			query.setParameter("type", type+"%");
 		}
-		//tu działa XD
-		query.setFirstResult(0).setMaxResults(15);
 		try {
 			list = query.getResultList();
 		} catch (Exception e) {

@@ -53,29 +53,21 @@
                              rendered="#{userLoginBB.isLoggedIn() and userLoginBB.hasRole('Admin')}"
                              style="margin-bottom:1em;" />
 
-            <p:dataTable value="#{productListBB.list}" var="p" paginator="true" rows="10">
-
-                <!-- TEST
-                -->
+            <p:dataTable value="#{productListBB.list}" var="p" paginator="true" rows="10" sortMode="single">
+            
+                
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="idProduct" />
                     </f:facet>
                     <h:outputText value="#{p.idProduct}" />
                 </p:column>
-                <!--
-                -->
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="manufacturer" />
-                    </f:facet>
+                
+                <p:column sortBy="#{p.manufacturer}" headerText="Manufacturer">
                     <h:outputText value="#{p.manufacturer}" />
                 </p:column>
 
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="model" />
-                    </f:facet>
+                <p:column sortBy="#{p.model}" headerText="Model">
                     <h:outputText value="#{p.model}" />
                 </p:column>
 
@@ -86,10 +78,7 @@
                     <h:outputText value="#{p.type}" />
                 </p:column>
 
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="price" />
-                    </f:facet>
+                <p:column sortBy="#{p.price}" headerText="Price">
                     <h:outputText value="#{p.price}" />
                 </p:column>
 
@@ -123,11 +112,5 @@
 
             </p:dataTable>
         </h:form>
-
-<!--	<p:button action="#{ProductDAO.less}" />
-        
-<p:button value="more"
-        action="#{productDAO.more}" />-->
-
     </h:body>
 </html>

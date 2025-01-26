@@ -13,6 +13,7 @@ import jakarta.faces.context.Flash;
 
 import com.jsf.dao.ProductDAO;
 import com.jsf.entities.Product;
+import jakarta.annotation.PostConstruct;
 
 @Named
 @RequestScoped
@@ -22,15 +23,17 @@ public class ProductListBB {
     private static final String PAGE_STAY_AT_THE_SAME = null;
 
     private String type;
+    private List<Product> list;
 
     @Inject
-    ExternalContext extcontext;
+//    ExternalContext extcontext;
+    private ProductDAO productDAO;
 
     @Inject
     Flash flash;
 
-    @EJB
-    ProductDAO productDAO;
+//    @EJB
+//    ProductDAO productDAO;
 
     public String getType() {
         return type;
@@ -40,21 +43,17 @@ public class ProductListBB {
         this.type = type;
     }
 
-    public List<Product> getFullList() {
-        return productDAO.getFullList(0, 10);
+    @PostConstruct
+    public void init() {
+        list = productDAO.getFullList();
     }
 
     public List<Product> getList() {
-        List<Product> list = null;
-
-        Map<String, Object> searchParams = new HashMap<String, Object>();
-
-        if (type != null && type.length() > 0) {
+        if (type != null && !type.isEmpty()) {
+            Map<String, Object> searchParams = new HashMap<>();
             searchParams.put("type", "%" + type + "%");
+            return productDAO.getList(searchParams);
         }
-
-        list = productDAO.getList(searchParams);
-
         return list;
     }
 

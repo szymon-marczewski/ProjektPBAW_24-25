@@ -8,6 +8,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -22,6 +24,7 @@ import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -40,8 +43,9 @@ public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Column(name = "idOrder")
     private Integer idOrder;
     @Basic(optional = false)
@@ -150,5 +154,11 @@ public class Order implements Serializable {
     public String toString() {
         return "test.Orders[ idOrder=" + idOrder + " ]";
     }
+    
+    public List<Product> getProducts() {
+    return transactionsCollection.stream()
+        .map(Transaction::getIdProduct)
+        .toList();
+}
     
 }

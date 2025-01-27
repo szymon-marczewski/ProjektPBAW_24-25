@@ -49,17 +49,14 @@ public class ProductEditGETBB implements Serializable {
 	}
 
 	public String saveData() {
-		// no Product object passed
 		if (loaded == null) {
 			return PAGE_STAY_AT_THE_SAME;
 		}
 
 		try {
 			if (product.getIdProduct() == null) {
-				// new record
 				productDAO.create(product);
 			} else {
-				// existing record
 				productDAO.merge(product);
 			}
 		} catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.jsfcourse.product;
 
+import com.jsf.dao.OrderDAO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,13 @@ import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.Flash;
 
 import com.jsf.dao.ProductDAO;
+import com.jsf.entities.Order;
 import com.jsf.entities.Product;
+import com.jsf.entities.User;
+//import com.jsf.product.UserLoginBB;
 import jakarta.annotation.PostConstruct;
+//import jakarta.faces.annotation.ManagedProperty;
+import java.time.LocalDate;
 
 @Named
 @RequestScoped
@@ -27,9 +33,15 @@ public class ProductListBB {
     private String sortField = "idProduct";
     private boolean ascending = true; 
 
+    @EJB
+    private OrderDAO orderDAO;
+    
     @Inject
 //    ExternalContext extcontext;
     private ProductDAO productDAO;
+    
+    @Inject
+    private UserLoginBB userLoginBB;
 
     @Inject
     Flash flash;
@@ -91,4 +103,22 @@ public class ProductListBB {
         productDAO.remove(product);
         return PAGE_STAY_AT_THE_SAME;
     }
+    
+    public void buyProduct(Product p) {
+        if (userLoginBB.isLoggedIn()) {
+            User activeUser = userLoginBB.getActiveUser();
+            
+            LocalDate localDate = LocalDate.now();
+            java.sql.Date date = java.sql.Date.valueOf(localDate);
+            
+            Order order = new Order();
+            order.setIdUser(activeUser); 
+            order.setDate(date);
+            order.setStatus(0);
+            order.setDescription("Waiting");
+
+            orderDAO.create(order);
+        }
+    }
+
 }

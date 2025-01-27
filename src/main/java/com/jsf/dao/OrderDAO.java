@@ -37,7 +37,6 @@ public class OrderDAO {
 //
 	public void create(User user) {
 		em.persist(user);
-//		id = user.getIdUser();
 	}
 //
 	public List<Order> getFullList() {
@@ -61,8 +60,7 @@ public class OrderDAO {
 
                 String q = "SELECT o FROM Orders o WHERE o.idUser.idUser = :idUser ORDER BY o.idOrder";
                 Query query = em.createQuery(q);
-                query.setParameter("idUser", userId); // Ustawiamy parametr ID użytkownika
-
+                query.setParameter("idUser", userId); 
                 try {
                     list = query.getResultList();
                 } catch (Exception e) {
@@ -73,8 +71,18 @@ public class OrderDAO {
         
         public List<Order> getOrdersByUserId(Integer userId) {
             TypedQuery<Order> query = em.createNamedQuery("Order.findByUserId", Order.class);
-            query.setParameter("idUser", userId);  // Przekazujesz tylko identyfikator użytkownika
+            query.setParameter("idUser", userId); 
             return query.getResultList();
         }
+        
+//        public List<Object[]> getOrdersByUserId(Integer userId) {
+//            TypedQuery<Object[]> query = em.createNamedQuery("SELECT o.idOrder, o.date, o.status, o.description, p.manufacturer, p.model " +
+//                    "FROM Order o " +
+//                    "WHERE o.idUser.idUser = :idUser" +
+//                    "JOIN o.transactionsCollection t " +
+//                    "JOIN t.idProduct p", Object[].class);
+//            query.setParameter("idUser", userId); 
+//            return query.getResultList();
+//        }
 
 }

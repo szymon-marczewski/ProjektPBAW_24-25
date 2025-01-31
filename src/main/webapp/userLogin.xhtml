@@ -25,9 +25,9 @@
 				<p:message for="p-username" display="icon"/>
 				
 				<h:outputLabel for="p-password" value="password:" />
-				<p:inputText id="p-password" value="#{userLoginBB.user.password}" required="true" requiredMessage="password"
+				<p:password id="p-password" value="#{userLoginBB.user.password}" required="true" requiredMessage="password"
 					validatorMessage="Bad password or username">
-				</p:inputText>
+				</p:password>
 				<p:message for="p-password" display="icon"/>
 				
 			</h:panelGrid>

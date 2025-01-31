@@ -54,7 +54,6 @@
                              style="margin-bottom:1em;" />
 
             <p:dataTable value="#{productListBB.list}" allowUnsorting="true" var="p" paginator="true" rows="10" sortMode="multiple">
-            
                 
                 <p:column>
                     <f:facet name="header">
@@ -106,7 +105,9 @@
 
                     <p:commandButton value="Buy"
                                      action="#{productListBB.buyProduct(p)}"
-                                     style="margin-left:4px;"/>
+                                     style="margin-left:4px;">
+                    <!--<p:confirm header="Confirmation" message="Are you sure you want to buy this?" icon="pi pi-exclamation-triangle"/>-->
+                    </p:commandButton>
 
                 </p:column>
 

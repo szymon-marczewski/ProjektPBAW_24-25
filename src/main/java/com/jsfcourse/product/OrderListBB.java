@@ -38,14 +38,11 @@ public class OrderListBB {
 	public List<Order> getList(){
                 List<Order> list = null;
 
-                // Retrieve the userId from the activeUser in UserLoginBB
-                Integer userId = userLoginBB.getActiveUser().getIdUser();  // Access the active user ID
+                Integer userId = userLoginBB.getActiveUser().getIdUser();
 
-                // Prepare search parameters
                 Map<String,Object> searchParams = new HashMap<>();
                 searchParams.put("idUser", userId);
 
-                // Get the list of orders for the logged-in user
                 list = orderDAO.getList(searchParams);
 
                 return list;

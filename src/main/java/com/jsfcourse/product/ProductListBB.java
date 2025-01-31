@@ -20,6 +20,7 @@ import com.jsf.entities.User;
 import jakarta.annotation.PostConstruct;
 //import jakarta.faces.annotation.ManagedProperty;
 import java.time.LocalDate;
+import org.primefaces.event.data.SortEvent;
 
 @Named
 @RequestScoped
@@ -83,7 +84,7 @@ public class ProductListBB {
         }
         return list;
     }
-
+    
     public String newProduct() {
         Product product = new Product();
 

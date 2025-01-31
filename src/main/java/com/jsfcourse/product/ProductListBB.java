@@ -21,6 +21,10 @@ import jakarta.annotation.PostConstruct;
 //import jakarta.faces.annotation.ManagedProperty;
 import java.time.LocalDate;
 import org.primefaces.event.data.SortEvent;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
 
 @Named
 @RequestScoped
@@ -32,7 +36,10 @@ public class ProductListBB {
     private String type;
     private List<Product> list;
     private String sortField = "idProduct";
+    private String sortOrder;
     private boolean ascending = true; 
+    
+    private LazyDataModel<Product> lazyModel;
 
     @EJB
     private OrderDAO orderDAO;
@@ -73,16 +80,43 @@ public class ProductListBB {
 
     @PostConstruct
     public void init() {
-        list = productDAO.getFullList(sortField, ascending);
+        lazyModel = new LazyDataModel<Product>() {
+            @Override
+            public List<Product> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+
+                String sortField = null;
+                boolean ascending = true;
+                if (sortBy != null && !sortBy.isEmpty()) {
+                    SortMeta meta = sortBy.values().iterator().next();
+                    sortField = meta.getField();
+                    ascending = meta.getOrder() == SortOrder.ASCENDING;
+                }
+
+                Map<String, Object> filterParams = new HashMap<>();
+                if (filterBy != null && !filterBy.isEmpty()) {
+                    filterBy.forEach((key, value) -> filterParams.put(key, value.getFilterValue()));
+                }
+
+                List<Product> resultList = productDAO.getListWithPagination(first, pageSize, sortField, ascending, filterParams);
+
+                lazyModel.setRowCount(productDAO.count(filterParams));
+
+                return resultList;
+            }
+
+            @Override
+            public int count(Map<String, FilterMeta> filterBy) {
+                Map<String, Object> filterParams = new HashMap<>();
+                if (filterBy != null && !filterBy.isEmpty()) {
+                    filterBy.forEach((key, value) -> filterParams.put(key, value.getFilterValue()));
+                }
+                return productDAO.count(filterParams);
+            }
+        };
     }
 
-    public List<Product> getList() {
-        if (type != null && !type.isEmpty()) {
-            Map<String, Object> searchParams = new HashMap<>();
-            searchParams.put("type", "%" + type + "%");
-            return productDAO.getList(searchParams, sortField, ascending);
-        }
-        return list;
+    public LazyDataModel<Product> getLazyModel() {
+        return lazyModel;
     }
     
     public String newProduct() {

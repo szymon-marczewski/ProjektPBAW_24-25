@@ -9,14 +9,11 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 import com.jsf.entities.Product;
+import jakarta.persistence.TypedQuery;
 
 @Stateless
 public class ProductDAO {
 	private final static String UNIT_NAME = "my_persistence_unit";
-//	public int nr = 0;
-//	public int end_nr = 5; 
-	// Dependency injection (no setter method is needed)
-//        private List<Product> list;
 	@PersistenceContext(unitName = UNIT_NAME)
 	protected EntityManager em;
 
@@ -35,66 +32,105 @@ public class ProductDAO {
 	public Product find(Object id) {
 		return em.find(Product.class, id);
 	}
+        
+        public List<Product> getListWithPagination(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filterParams) {
+        StringBuilder queryStr = new StringBuilder("SELECT p FROM Product p WHERE 1=1 ");
 
-	public List<Product> getFullList(String sortField, boolean ascending) {
-            List<Product> list = null;
+        filterParams.forEach((key, value) -> {
+            queryStr.append(" AND p.").append(key).append(" LIKE :").append(key);
+        });
 
-            String select = "SELECT p ";
-            String from = "FROM Product p ";
-            String orderBy = "ORDER BY p." + sortField;
+        if (sortField != null && !sortField.isEmpty()) {
+            queryStr.append(" ORDER BY p.").append(sortField);
+            queryStr.append(ascending ? " ASC" : " DESC");
+        }
 
-            if (!ascending) {
-                orderBy += " DESC";
-            }
+        TypedQuery<Product> query = em.createQuery(queryStr.toString(), Product.class);
 
-            Query query = em.createQuery(select + from + orderBy);
+        filterParams.forEach((key, value) -> {
+            query.setParameter(key, "%" + value + "%"); 
+        });
 
-            try {
-                list = query.getResultList();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        query.setFirstResult(first);
+        query.setMaxResults(pageSize);
 
-        return list;
+        return query.getResultList();
     }
 
+    public int count(Map<String, Object> filterParams) {
+        StringBuilder countQueryStr = new StringBuilder("SELECT COUNT(p) FROM Product p WHERE 1=1 ");
 
-	public List<Product> getList(Map<String, Object> searchParams, String sortField, boolean ascending) {
-		List<Product> list = null;
+        filterParams.forEach((key, value) -> {
+            countQueryStr.append(" AND p.").append(key).append(" LIKE :").append(key);
+        });
 
-		String select = "select p ";
-		String from = "from Product p ";
-		String where = "";
-//		String orderby = "";
-                
+        TypedQuery<Long> countQuery = em.createQuery(countQueryStr.toString(), Long.class);
 
-		String type = (String) searchParams.get("type");
-		if (type != null) {
-			if (where.isEmpty()) {
-				where = "where ";
-			} else {
-				where += "and ";
-			}
-			where += "p.type like :type ";
-		}
-                
-                String orderBy = "order by p." + sortField;
-                if (!ascending) {
-                    orderBy += " desc";
-                }
-		
-		Query query = em.createQuery(select + from + where + orderBy);
+        filterParams.forEach((key, value) -> {
+            countQuery.setParameter(key, "%" + value + "%");
+        });
 
-		if (type != null) {
-			query.setParameter("type", type+ "%");
-		}
-		try {
-			list = query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        return countQuery.getSingleResult().intValue();
+    }
 
-		return list;
-	}
+//    public List<Product> getFullList(String sortField, boolean ascending) {
+//        List<Product> list = null;
+//
+//        String select = "SELECT p ";
+//        String from = "FROM Product p ";
+//        String orderBy = "ORDER BY p." + sortField;
+//
+//        if (!ascending) {
+//            orderBy += " DESC";
+//        }
+//
+//        Query query = em.createQuery(select + from + orderBy); 
+//
+//        try {
+//            list = query.getResultList();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return list;
+//        }
+//
+//
+//    public List<Product> getList(Map<String, Object> searchParams, String sortField, boolean ascending) {
+//        List<Product> list = null;
+//
+//        String select = "SELECT p ";
+//        String from = "FROM Product p ";
+//        String where = "";
+//
+//        String type = (String) searchParams.get("type");
+//        if (type != null) {
+//            if (where.isEmpty()) {
+//                where = "WHERE ";
+//            } else {
+//                where += "AND ";
+//            }
+//            where += "p.type LIKE :type ";
+//        }
+//
+//        String orderBy = "ORDER BY p." + sortField;
+//        if (!ascending) {
+//            orderBy += " DESC";
+//        }
+//
+//        Query query = em.createQuery(select + from + where + orderBy);
+//
+//        if (type != null) {
+//            query.setParameter("type", "%" + type + "%");
+//        }
+//
+//        try {
+//            list = query.getResultList();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return list;
+//    }
 
 }

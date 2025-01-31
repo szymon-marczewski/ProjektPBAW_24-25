@@ -8,6 +8,7 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -72,7 +73,7 @@ public class Product implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "Description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProduct")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProduct", fetch = FetchType.LAZY)
     private Collection<Transaction> transactionsCollection;
 
     public Product() {

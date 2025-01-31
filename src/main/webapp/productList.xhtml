@@ -39,7 +39,7 @@
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel value="type:" />
                     <p:inputText value="#{productListBB.type}" />
-                    <p:commandButton value="Search" action="#{productListBB.getList}" update="form-table" />
+                    <p:commandButton value="Search" action="#{productListBB.lazyModel}" update="form-table" />
                 </h:panelGrid>
             </h:form>
         </p:panel>
@@ -53,7 +53,7 @@
                              rendered="#{userLoginBB.isLoggedIn() and userLoginBB.hasRole('Admin')}"
                              style="margin-bottom:1em;" />
 
-            <p:dataTable value="#{productListBB.list}" allowUnsorting="true" var="p" paginator="true" rows="10" sortMode="multiple">
+            <p:dataTable value="#{productListBB.lazyModel}" var="p" paginator="true" rows="10" lazy="true" sortMode="multiple">
                 
                 <p:column>
                     <f:facet name="header">

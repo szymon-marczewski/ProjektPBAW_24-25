@@ -58,7 +58,7 @@ public class OrderDAO {
 
                 Integer userId = (Integer) searchParams.get("idUser");
 
-                String q = "SELECT o FROM Orders o WHERE o.idUser.idUser = :idUser ORDER BY o.idOrder";
+                String q = "SELECT o FROM Orders o WHERE o.idUser.idUser = :idUser AND o.status != 2 ORDER BY o.idOrder";
                 Query query = em.createQuery(q);
                 query.setParameter("idUser", userId); 
                 try {

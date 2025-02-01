@@ -39,7 +39,7 @@
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel value="type:" />
                     <p:inputText value="#{productListBB.type}" />
-                    <p:commandButton value="Search" action="#{productListBB.lazyModel}" update="form-table" />
+                    <p:commandButton value="Search" action="#{productListBB.search}" update="form-table" />
                 </h:panelGrid>
             </h:form>
         </p:panel>

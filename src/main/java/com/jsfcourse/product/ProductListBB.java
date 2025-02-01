@@ -20,6 +20,7 @@ import com.jsf.entities.User;
 import jakarta.annotation.PostConstruct;
 //import jakarta.faces.annotation.ManagedProperty;
 import java.time.LocalDate;
+import java.util.Collections;
 import org.primefaces.event.data.SortEvent;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
@@ -96,6 +97,10 @@ public class ProductListBB {
                 if (filterBy != null && !filterBy.isEmpty()) {
                     filterBy.forEach((key, value) -> filterParams.put(key, value.getFilterValue()));
                 }
+                
+                if (type != null && !type.isEmpty()) {
+                    filterParams.put("type", type);
+                }
 
                 List<Product> resultList = productDAO.getListWithPagination(first, pageSize, sortField, ascending, filterParams);
 
@@ -110,6 +115,11 @@ public class ProductListBB {
                 if (filterBy != null && !filterBy.isEmpty()) {
                     filterBy.forEach((key, value) -> filterParams.put(key, value.getFilterValue()));
                 }
+                
+                if (type != null && !type.isEmpty()) {
+                    filterParams.put("type", type);
+                }
+                
                 return productDAO.count(filterParams);
             }
         };
@@ -117,6 +127,10 @@ public class ProductListBB {
 
     public LazyDataModel<Product> getLazyModel() {
         return lazyModel;
+    }
+    
+    public void search() {
+        lazyModel.setRowCount(productDAO.count(Collections.singletonMap("type", type)));
     }
     
     public String newProduct() {

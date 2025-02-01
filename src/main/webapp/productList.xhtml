@@ -44,7 +44,7 @@
             </h:form>
         </p:panel>
 
-        <p:messages />
+        <!--<p:messages />-->
 
         <h:form id="form-table" style="margin-bottom:1em;">
 
@@ -105,7 +105,8 @@
 
                     <p:commandButton value="Buy"
                                      action="#{productListBB.buyProduct(p)}"
-                                     style="margin-left:4px;">
+                                     styleClass="ui-button-danger">
+                        <p:confirm message="Are you sure you want to buy this product?" icon="pi pi-exclamation-triangle" />
                     <!--<p:confirm header="Confirmation" message="Are you sure you want to buy this?" icon="pi pi-exclamation-triangle"/>-->
                     </p:commandButton>
 
@@ -113,5 +114,9 @@
 
             </p:dataTable>
         </h:form>
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" />
+    </p:confirmDialog>
     </h:body>
 </html>

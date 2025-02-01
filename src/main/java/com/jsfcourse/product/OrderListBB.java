@@ -55,5 +55,14 @@ public class OrderListBB {
         public List<Order> getOrdersForActiveUser() {
             Integer userId = getActiveUser().getIdUser();
             return orderDAO.getOrdersByUserId(userId);
+        }
+        
+        public void cancelOrder(int orderId) {
+            Order order = orderDAO.find(orderId);
+            if (order != null) {
+                order.setStatus(2);
+                order.setDescription("Cancelled"); 
+                orderDAO.merge(order);
+    }
 }
 }

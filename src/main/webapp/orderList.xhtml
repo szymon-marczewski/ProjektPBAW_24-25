@@ -15,7 +15,7 @@
 	<h:form id="form-table2" style="margin-bottom:1em;">
 			
 	<p:commandButton value="Menu"
-			action="productList.xhtml" style= "align: right; margin-right: auto;" />
+			action="productList?faces-redirect=true" style= "margin-right: auto;" />
 	</h:form>
 
 	<h1>Your orders</h1>
@@ -44,17 +44,26 @@
             <h:outputText value="#{p.description}" />
         </p:column>
             
-<!--        <p:column>
+        <p:column>
             <f:facet name="header">
-                <h:outputText value="Test" />
+                <h:outputText value="Actions" />
             </f:facet>
-            <h:outputText value="#{p.order}" />
-        </p:column>-->
+            <p:commandButton value="Cancel" 
+                     action="#{orderListBB.cancelOrder(p.idOrder)}"
+                     update="form-table"
+                     styleClass="ui-button-danger">
+            <p:confirm message="Are you sure you want to cancel this order?" icon="pi pi-exclamation-triangle" />
+            </p:commandButton>
+        </p:column>
             
 
     </p:dataTable>
 		
     </h:form>
-
+        
+<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" />
+</p:confirmDialog>
 </h:body>
 </html>

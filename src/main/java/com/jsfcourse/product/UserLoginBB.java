@@ -53,7 +53,7 @@ public class UserLoginBB implements Serializable {
             return PAGE_PRODUCT_LIST;
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne dane logowania", null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect username or password", null));
             return null;
         }
     }

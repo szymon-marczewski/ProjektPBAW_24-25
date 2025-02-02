@@ -13,8 +13,10 @@ import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.Flash;
 
 import com.jsf.dao.ProductDAO;
+import com.jsf.dao.TransactionDAO;
 import com.jsf.entities.Order;
 import com.jsf.entities.Product;
+import com.jsf.entities.Transaction;
 import com.jsf.entities.User;
 //import com.jsf.product.UserLoginBB;
 import jakarta.annotation.PostConstruct;
@@ -48,6 +50,9 @@ public class ProductListBB {
     @Inject
 //    ExternalContext extcontext;
     private ProductDAO productDAO;
+    
+    @Inject
+    private TransactionDAO transactionDAO;
     
     @Inject
     private UserLoginBB userLoginBB;
@@ -167,6 +172,14 @@ public class ProductListBB {
             order.setDescription("Waiting");
 
             orderDAO.create(order);
+            
+            Transaction transaction = new Transaction();
+            transaction.setIdOrder(order); 
+            transaction.setIdProduct(p);  
+            transaction.setAmount(1);
+            transaction.setTotalprice(p.getPrice()); 
+
+            transactionDAO.create(transaction);
         }
     }
 

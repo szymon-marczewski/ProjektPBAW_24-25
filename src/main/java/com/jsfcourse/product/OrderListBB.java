@@ -14,6 +14,7 @@ import jakarta.faces.context.Flash;
 import com.jsf.dao.OrderDAO;
 import com.jsf.entities.Order;
 import com.jsf.entities.User;
+import java.util.Collections;
 
 @Named
 @RequestScoped
@@ -35,17 +36,14 @@ public class OrderListBB {
 		return orderDAO.getFullList();
 	}
 
-	public List<Order> getList(){
-                List<Order> list = null;
-
-                Integer userId = userLoginBB.getActiveUser().getIdUser();
-
-                Map<String,Object> searchParams = new HashMap<>();
-                searchParams.put("idUser", userId);
-
-                list = orderDAO.getList(searchParams);
-
-                return list;
+	public List<Object[]> getList() {
+            User activeUser = userLoginBB.getActiveUser();
+            if (activeUser != null) {
+                Map<String, Object> searchParams = new HashMap<>();
+                searchParams.put("idUser", activeUser.getIdUser());
+                return orderDAO.getList(searchParams);
+            }
+            return Collections.emptyList();
         }
         
         public User getActiveUser() {

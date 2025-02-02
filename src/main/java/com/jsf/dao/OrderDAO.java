@@ -53,14 +53,21 @@ public class OrderDAO {
 		return list;
 	}
 
-	public List<Order> getList(Map<String, Object> searchParams) {
-                List<Order> list = null;
+	public List<Object[]> getList(Map<String, Object> searchParams) {
+                List<Object[]> list = null;
 
                 Integer userId = (Integer) searchParams.get("idUser");
 
-                String q = "SELECT o FROM Orders o WHERE o.idUser.idUser = :idUser AND o.status != 2 ORDER BY o.idOrder";
-                Query query = em.createQuery(q);
-                query.setParameter("idUser", userId); 
+                String q = "SELECT o.idOrder, o.date, o.description, "
+             + "p.manufacturer, p.model, p.price "
+             + "FROM Order o "
+             + "JOIN o.transactionsCollection t "
+             + "JOIN t.idProduct p "
+             + "WHERE o.idUser.idUser = :idUser AND o.status != 2 "
+             + "ORDER BY o.idOrder";
+
+            TypedQuery<Object[]> query = em.createQuery(q, Object[].class);
+            query.setParameter("idUser", userId); 
                 try {
                     list = query.getResultList();
                 } catch (Exception e) {

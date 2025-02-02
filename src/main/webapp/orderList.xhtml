@@ -27,21 +27,42 @@
             <f:facet name="header">
                 <h:outputText value="idOrder" />
             </f:facet>
-            <h:outputText value="#{p.idOrder}" />
+            <h:outputText value="#{p[0]}" />
         </p:column>
         
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Date" />
             </f:facet>
-            <h:outputText value="#{p.date}" />
+            <h:outputText value="#{p[1]}" />
+        </p:column>
+            
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Manufacturer" />
+            </f:facet>
+            <h:outputText value="#{p[3]}" />
+        </p:column>
+            
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Model" />
+            </f:facet>
+            <h:outputText value="#{p[4]}" />
+        </p:column>
+            
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Price" />
+            </f:facet>
+            <h:outputText value="#{p[5]}" />
         </p:column>
         
         <p:column>
             <f:facet name="header">
-                <h:outputText value="Description" />
+                <h:outputText value="Order status" />
             </f:facet>
-            <h:outputText value="#{p.description}" />
+            <h:outputText value="#{p[2]}" />
         </p:column>
             
         <p:column>
@@ -49,7 +70,7 @@
                 <h:outputText value="Actions" />
             </f:facet>
             <p:commandButton value="Cancel" 
-                     action="#{orderListBB.cancelOrder(p.idOrder)}"
+                     action="#{orderListBB.cancelOrder(p[0])}"
                      update="form-table"
                      styleClass="ui-button-danger">
             <p:confirm message="Are you sure you want to cancel this order?" icon="pi pi-exclamation-triangle" />

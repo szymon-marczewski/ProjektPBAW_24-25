@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 import com.jsf.entities.Order;
+import com.jsf.entities.Transaction;
 import com.jsf.entities.User;
 import jakarta.persistence.TypedQuery;
 
@@ -38,6 +39,10 @@ public class OrderDAO {
 	public void create(User user) {
 		em.persist(user);
 	}
+        
+        public void createTransaction(Transaction transaction) {
+                 em.persist(transaction);
+        }
 //
 	public List<Order> getFullList() {
 		List<Order> list = null;
@@ -59,7 +64,7 @@ public class OrderDAO {
                 Integer userId = (Integer) searchParams.get("idUser");
 
                 String q = "SELECT o.idOrder, o.date, o.description, "
-             + "p.manufacturer, p.model, p.price "
+             + "p.manufacturer, p.model, t.totalprice, t.amount "
              + "FROM Order o "
              + "JOIN o.transactionsCollection t "
              + "JOIN t.idProduct p "

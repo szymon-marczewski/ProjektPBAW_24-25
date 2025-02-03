@@ -20,6 +20,8 @@ import com.jsf.entities.Transaction;
 import com.jsf.entities.User;
 //import com.jsf.product.UserLoginBB;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 //import jakarta.faces.annotation.ManagedProperty;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -41,6 +43,8 @@ public class ProductListBB {
     private String sortField = "idProduct";
     private String sortOrder;
     private boolean ascending = true; 
+    private Map<Integer, Integer> quantities = new HashMap<>();
+    private int selectedQuantity;
     
     private LazyDataModel<Product> lazyModel;
 
@@ -82,6 +86,22 @@ public class ProductListBB {
 
     public void setAscending(boolean ascending) {
         this.ascending = ascending;
+    }
+
+    public Map<Integer, Integer> getQuantities() {
+        return quantities;
+    }
+
+    public void setQuantities(Map<Integer, Integer> quantities) {
+        this.quantities = quantities;
+    }
+
+    public int getSelectedQuantity() {
+        return selectedQuantity;
+    }
+
+    public void setSelectedQuantity(int selectedQuantity) {
+        this.selectedQuantity = selectedQuantity;
     }
 
     @PostConstruct
@@ -160,6 +180,11 @@ public class ProductListBB {
     
     public void buyProduct(Product p) {
         if (userLoginBB.isLoggedIn()) {
+            
+            if (selectedQuantity < 1) {
+                selectedQuantity = 1; 
+            }
+            
             User activeUser = userLoginBB.getActiveUser();
             
             LocalDate localDate = LocalDate.now();
@@ -176,10 +201,12 @@ public class ProductListBB {
             Transaction transaction = new Transaction();
             transaction.setIdOrder(order); 
             transaction.setIdProduct(p);  
-            transaction.setAmount(1);
-            transaction.setTotalprice(p.getPrice()); 
+            transaction.setAmount(selectedQuantity);
+            transaction.setTotalprice(p.getPrice() * selectedQuantity); 
 
             transactionDAO.create(transaction);
+            quantities.put(p.getIdProduct(), 1);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Order placed successfully!"));
         }
     }
 

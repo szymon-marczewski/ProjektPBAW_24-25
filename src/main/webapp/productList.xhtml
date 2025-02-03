@@ -87,11 +87,19 @@
                     </f:facet>
                     <h:outputText value="#{p.description}" />
                 </p:column>
+                
+                <p:column rendered="#{userLoginBB.isLoggedIn()}">
+                    <f:facet name="header">
+                        <h:outputText value="amount" />
+                    </f:facet>
+                    <p:spinner id="quantity_#{p.idProduct}" value="#{productListBB.quantities[p.idProduct]}" min="1"  />
+                </p:column>
 
                 <p:column rendered="#{userLoginBB.isLoggedIn()}">
                     <f:facet name="header">
                         <h:outputText value="options" />
                     </f:facet>
+                  
 
                     <p:commandButton value="Edit"
                                      action="#{productListBB.editProduct(p)}"
@@ -101,13 +109,16 @@
                                      action="#{productListBB.deleteProduct(p)}"
                                      update="@form"
                                      rendered="#{userLoginBB.hasRole('Admin')}"
-                                     style="margin-left:4px;" />
+                                     style="margin-left:4px;" >
+                        <p:confirm message="Are you sure you want to delete this product?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
 
                     <p:commandButton value="Buy"
                                      action="#{productListBB.buyProduct(p)}"
-                                     styleClass="ui-button-danger">
+                                     styleClass="ui-button-danger"
+                                     update="@form">
+                        <f:setPropertyActionListener target="#{productListBB.selectedQuantity}" value="#{productListBB.quantities[p.idProduct]}" />
                         <p:confirm message="Are you sure you want to buy this product?" icon="pi pi-exclamation-triangle" />
-                    <!--<p:confirm header="Confirmation" message="Are you sure you want to buy this?" icon="pi pi-exclamation-triangle"/>-->
                     </p:commandButton>
 
                 </p:column>
